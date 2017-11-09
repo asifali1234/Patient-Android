@@ -1,19 +1,31 @@
 package com.genesis.patient;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class SplashActivity extends AppCompatActivity {
-
-    private static int SPLASH_TIME_OUT = 3000;
+public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        fade();
+
+        final ImageView logo  = (ImageView) findViewById(R.id.imgLogo);
+        final TextView text  = (TextView) findViewById(R.id.textspace);
+
+        int SPLASH_TIME_OUT = 4000;
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -23,15 +35,23 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
+                logo.setAlpha(0);
+                text.setAlpha(0);
                 Intent i = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(i);
-
-                // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    public void fade(){
+        ImageView logo  = (ImageView) findViewById(R.id.imgLogo);
+        TextView text  = (TextView) findViewById(R.id.textspace);
+        Animation animation1 =
+                AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.fade);
+        logo.startAnimation(animation1);
+        text.startAnimation(animation1);
     }
 
 }
