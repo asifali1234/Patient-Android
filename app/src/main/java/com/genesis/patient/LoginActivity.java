@@ -39,6 +39,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
 
+    private String personName = "";
+    private String personEmail = "";
+    private String personPhotoUrl = "";
+    private String googleID = "";
+
     SharedPreferences signInInfo;
     SharedPreferences.Editor signInEditor;
 
@@ -117,26 +122,81 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void requestApi(JSONObject data, String reqUrl, String method) {
 
-        int reqMethod = method == "POST" ? Request.Method.POST : Request.Method.GET;
+        int reqMethod = method.equalsIgnoreCase("POST") ? Request.Method.POST : Request.Method.GET;
 
         showProgressDialog();
         JsonObjectRequest request = new JsonObjectRequest(reqMethod, reqUrl, data, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.e(TAG,"Volley Response" + response.toString());
                 parseLogin(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e(TAG,"Volley Error my" + error.toString());
 
             }
         });
         AppController.getInstance().addToRequestQueue(request);
     }
 
-    public void parseLogin(JSONObject data){
-        Toast.makeText(this, data+"", Toast.LENGTH_LONG).show();
+    public void parseLogin(JSONObject patient){
+        Log.e(TAG,patient.toString());
+
+        PatientBean pb = new PatientBean();
+
+        try {
+
+
+            pb.setExistingUser(String.valueOf(patient.getBoolean("registered")));
+            pb.setName(personName);
+            pb.setEmail(personEmail);
+            pb.setPhotoURL(personPhotoUrl);
+            pb.setGoogleID(googleID);
+
+            if(pb.getExistingUser().equalsIgnoreCase("False")){
+                Intent i = new Intent(LoginActivity.this,NewUserDetailsActivity.class);
+                i.putExtra("patientbean",pb);
+                startActivity(i);
+            }
+            else{
+
+            pb.setName(patient.getString("name"));
+            pb.setAddress(patient.getString("address"));
+            pb.setAge(patient.getString("age"));
+            pb.setBloodGroup(patient.getString("bloodGroup"));
+            pb.setEmail(patient.getString("email"));
+            pb.setGender(patient.getString("gender"));
+            pb.setPhn(patient.getString("phn"));
+            pb.setGoogleID(patient.getString("googleid"));
+            pb.setPhotoURL(patient.getString("photoURL"));
+
+            Intent i = new Intent(LoginActivity.this,PatientActivity.class);
+
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences("patientbean", 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            Gson gson = new Gson();
+            String pbString = gson.toJson(pb);
+            editor.putString("patientbean",pbString);
+            editor.apply();
+
+            String jsonret = preferences.getString("patientbean","");
+            PatientBean pbret = gson.fromJson(jsonret,PatientBean.class);
+
+            i.putExtra("patientbean",pb);
+            startActivity(i);
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.e(TAG,"JSON Error in Parse" + e.toString());
+            e.printStackTrace();
+        }
+
         hideProgressDialog();
+
     }
 
     @Override
@@ -184,79 +244,53 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             Log.e(TAG, "display name: " + (acct != null ? acct.getDisplayName() : "NO Account Detected"));
 
-            String personName = acct != null ? acct.getDisplayName() : "NO Account Detected";
-            String personPhotoUrl = acct != null ? acct.getPhotoUrl().toString() : "NO Account Detected";
-            String email = acct != null ? acct.getEmail() : "NO Account Detected";
+            personName = acct != null ? acct.getDisplayName() : "NO Account Detected";
+            personPhotoUrl = acct != null ? acct.getPhotoUrl().toString() : "NO Account Detected";
+            personEmail = acct != null ? acct.getEmail() : "NO Account Detected";
+            googleID = acct != null ? acct.getId() : null;
 
-            Toast.makeText(this, personName +"  "+email, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, personName +"  "+personEmail, Toast.LENGTH_LONG).show();
 
-            Log.e(TAG, "Name: " + personName + ", email: " + email
+            Log.e(TAG, "Name: " + personName + ", email: " + personEmail
                     + ", Image: " + personPhotoUrl);
 
-            signInEditor = signInInfo.edit();
-            signInEditor.clear();
-            signInEditor.putString("email",email);
-            signInEditor.putString("name",personName);
-            signInEditor.apply();
+//            signInEditor = signInInfo.edit();
+//            signInEditor.clear();
+//            signInEditor.putString("email",email);
+//            signInEditor.putString("name",personName);
+//            signInEditor.apply();
 
-            PatientBean pb = new PatientBean();
-//            showProgressDialog(); calling progressDialog on requestApi
 
-            JSONObject data = new JSONObject();
+
+
+            JSONObject auth = new JSONObject();
+
+            JSONObject patient = new JSONObject();
+
+
+
             try {
-                data.put("GoogleID", 1234);
-                String example_url = "https://api.androidhive.info/volley/person_object.json";
-                // Method could be POST or GET, for testing the above link use GET else POST to send google id
-                requestApi(data, example_url, "GET");
+                auth.put("googleid", googleID);
+                String example_url = "http://117.248.31.130:3000/checkUserexists";
+                Log.e(TAG,auth.toString());
+
+                patient.put("name",personName);
+                patient.put("address","address");
+                patient.put("age","address");
+                patient.put("bloodGroup","address");
+                patient.put("email","address");
+                patient.put("gender","address");
+                patient.put("phn","address");
+                patient.put("photoURL","address");
+
+
+
+                requestApi(auth, example_url, "POST");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //#######################################################################################################################################################
-            //Send email to the server and get the already details entered flag
-            // pb.existingUser = "1" for already existing
-            // pb.existingUser = "0" for new user
-            // pb.existingUser = "1" for already existing
-            // pb.existingUser = "0" for new user
-            // get all other details of the user.
-            // update this value
-            // update all values of Patient in pb
-            //#######################################################################################################################################################
-//            hideProgressDialog(); hiding progressDialog on parseData
 
-            // Temporary  ###########################################################################################################################################
-            pb.setExistingUser("0");
 
-            pb.setName(personName);
-            pb.setAddress("PYRA 34, Kaintikkara Road, Muppathadom PO, Aluva-10");
-            pb.setAge("21");
-            pb.setBloodGroup("B+ve");
-            pb.setEmail(email);
-            pb.setGender("M");
-            pb.setPhn("8594014280");
-            pb.setGoogleID("myid1234");
-            //#######################################################################################################################################################
-
-            if(pb.getExistingUser().equalsIgnoreCase("0")){
-                Intent i = new Intent(LoginActivity.this,NewUserDetailsActivity.class);
-                i.putExtra("patientbean",pb);
-                startActivity(i);
-            }
-            else{
-                Intent i = new Intent(LoginActivity.this,PatientActivity.class);
-
-                SharedPreferences preferences = getApplicationContext().getSharedPreferences("patientbean", 0);
-                SharedPreferences.Editor editor = preferences.edit();
-                Gson gson = new Gson();
-                String pbString = gson.toJson(pb);
-                editor.putString("patientbean",pbString);
-                editor.apply();
-
-                String jsonret = preferences.getString("patientbean","");
-                PatientBean pbret = gson.fromJson(jsonret,PatientBean.class);
-
-                i.putExtra("patientbean",pb);
-                startActivity(i);
-            }
 //            txtName.setText(personName);
 //            txtEmail.setText(email);
 //            Glide.with(getApplicationContext()).load(personPhotoUrl)

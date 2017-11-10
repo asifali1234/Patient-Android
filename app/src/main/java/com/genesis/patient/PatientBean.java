@@ -17,6 +17,7 @@ public class PatientBean implements Serializable {
     private String age;
     private String existingUser;
     private String googleID;
+    private String photoURL;
 
 
 
@@ -90,5 +91,13 @@ public class PatientBean implements Serializable {
 
     public void setGoogleID(String googleID) {
         this.googleID = googleID;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 }
