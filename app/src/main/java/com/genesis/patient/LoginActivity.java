@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -21,6 +25,10 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -107,6 +115,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
+    private void requestApi(JSONObject data, String reqUrl, String method) {
+
+        int reqMethod = method == "POST" ? Request.Method.POST : Request.Method.GET;
+
+        showProgressDialog();
+        JsonObjectRequest request = new JsonObjectRequest(reqMethod, reqUrl, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                parseLogin(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
+    public void parseLogin(JSONObject data){
+        Toast.makeText(this, data+"", Toast.LENGTH_LONG).show();
+        hideProgressDialog();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,8 +200,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             signInEditor.apply();
 
             PatientBean pb = new PatientBean();
+//            showProgressDialog(); calling progressDialog on requestApi
 
-            showProgressDialog();
+            JSONObject data = new JSONObject();
+            try {
+                data.put("GoogleID", 1234);
+                String example_url = "https://api.androidhive.info/volley/person_object.json";
+                // Method could be POST or GET, for testing the above link use GET else POST to send google id
+                requestApi(data, example_url, "GET");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             //#######################################################################################################################################################
             //Send email to the server and get the already details entered flag
             // pb.existingUser = "1" for already existing
@@ -180,7 +221,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // update this value
             // update all values of Patient in pb
             //#######################################################################################################################################################
-            hideProgressDialog();
+//            hideProgressDialog(); hiding progressDialog on parseData
 
             // Temporary  ###########################################################################################################################################
             pb.setExistingUser("0");
