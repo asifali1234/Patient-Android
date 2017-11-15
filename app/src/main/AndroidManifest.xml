@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.genesis.patient">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.genesis.patient">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 
     <application
         android:name=".AppController"
@@ -33,9 +37,11 @@
             android:name=".PatientActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".OTPVerifyActivity"
+        <activity
+            android:name=".OTPVerifyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1"/>
+            android:theme="@style/AppTheme1" />
+        <activity android:name=".AppointmentBooked"></activity>
     </application>
 
 </manifest>

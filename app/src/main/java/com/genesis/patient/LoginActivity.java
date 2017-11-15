@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
     }
 
     @Override
@@ -156,6 +157,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             pb.setGoogleID(googleID);
 
             if(pb.getExistingUser().equalsIgnoreCase("False")){
+                hideProgressDialog();
                 Intent i = new Intent(LoginActivity.this,NewUserDetailsActivity.class);
                 i.putExtra("patientbean",pb);
                 startActivity(i);
@@ -183,6 +185,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             String jsonret = preferences.getString("patientbean","");
             PatientBean pbret = gson.fromJson(jsonret,PatientBean.class);
+
+            hideProgressDialog();
 
             i.putExtra("patientbean",pb);
             startActivity(i);
@@ -267,7 +271,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             JSONObject patient = new JSONObject();
 
-
+            PatientBean temppb = new PatientBean();
 
             try {
                 auth.put("googleid", googleID);
@@ -284,8 +288,23 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 patient.put("photoURL","address");
 
 
+                temppb.setGoogleID(googleID);
+                temppb.setAge("21");
+                temppb.setPhotoURL(personPhotoUrl);
+                temppb.setEmail(personEmail);
+                temppb.setBloodGroup("B +Ve");
+                temppb.setAddress("PYRA - 34");
+                temppb.setGender("M");
+                temppb.setPhn("8594014280");
+                temppb.setName(personName);
 
-                requestApi(auth, example_url, "POST");
+                //requestApi(auth, example_url, "POST");
+
+                Intent i = new Intent(LoginActivity.this,PatientActivity.class);
+                i.putExtra("patientbeantemp",temppb);
+
+                startActivity(i);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/backsign"
     android:orientation="vertical"
     >
 
@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/backsign"
             android:orientation="vertical">
 
 
@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="?attr/colorPrimary"
+                android:background="@color/space_transparent"
                 android:gravity="center"
                 android:layout_marginTop="15dp"
                 android:minHeight="?attr/actionBarSize"
@@ -57,6 +57,14 @@
 
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="8dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/home"
+
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -199,10 +207,10 @@
                 android:id="@+id/patient_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
                 android:layout_gravity="center"
-                android:textColor="@color/colorPrimary"
-                android:background="@drawable/form_submit_shape"/>
+                android:background="@drawable/form_submit_shape"
+                android:text="Submit"
+                android:textColor="#ffffff" />
 
             <LinearLayout
                 android:layout_width="match_parent"

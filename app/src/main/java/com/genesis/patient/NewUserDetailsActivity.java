@@ -42,6 +42,9 @@ public class NewUserDetailsActivity extends AppCompatActivity {
         name.setText(pb.getName());
         email.setText(pb.getName());
 
+//        name.setText("Asif Ali");
+//        email.setText("aachi.mec@gmail.com");
+
         phn = (CustomEditText) findViewById(R.id.patient_phone);
         address = (CustomEditText) findViewById(R.id.patient_address);
         bloodGroup = (CustomEditText) findViewById(R.id.patient_blood);
@@ -58,7 +61,6 @@ public class NewUserDetailsActivity extends AppCompatActivity {
                 pb.setBloodGroup(bloodGroup.getText().toString());
                 pb.setGender(gender.getText().toString());
                 pb.setAge(age.getText().toString());
-
 
 
 
