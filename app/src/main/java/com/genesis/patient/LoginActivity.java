@@ -275,7 +275,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             try {
                 auth.put("googleid", googleID);
-                String example_url = "http://117.248.31.130:3000/checkUserexists";
+                String example_url = "http://ec2-13-58-90-106.us-east-2.compute.amazonaws.com/api/checkUserexists";
                 Log.e(TAG,auth.toString());
 
                 patient.put("name",personName);
@@ -298,12 +298,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 temppb.setPhn("8594014280");
                 temppb.setName(personName);
 
-                //requestApi(auth, example_url, "POST");
+                requestApi(auth, example_url, "POST");
 
-                Intent i = new Intent(LoginActivity.this,PatientActivity.class);
-                i.putExtra("patientbeantemp",temppb);
-
-                startActivity(i);
+//                Intent i = new Intent(LoginActivity.this,PatientActivity.class);
+//                i.putExtra("patientbeantemp",temppb);
+//
+//                startActivity(i);
 
             } catch (JSONException e) {
                 e.printStackTrace();

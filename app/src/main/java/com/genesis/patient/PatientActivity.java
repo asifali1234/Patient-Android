@@ -1,7 +1,6 @@
 package com.genesis.patient;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cuboid.cuboidcirclebutton.CuboidButton;
-import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,7 +41,7 @@ public class PatientActivity extends AppCompatActivity {
         personName = (TextView) findViewById(R.id.personname);
         personPhone = (TextView) findViewById(R.id.personphone);
 
-        pb = (PatientBean) getIntent().getSerializableExtra("patientbeantemp");
+        pb = (PatientBean) getIntent().getSerializableExtra("patientbean");
 
         personBloodGroup.setText(pb.getBloodGroup());
         personGender.setText(pb.getGender());
@@ -64,17 +62,48 @@ public class PatientActivity extends AppCompatActivity {
                 ab = new AppointmentBean();
 
                 ab.setPb(pb);
-                ab.setDateDay("17");
-                ab.setDateMonth("11");
-                ab.setDateYear("2017");
+
                 ab.setDoctorid("doctor123456");
-                ab.setDateHourStart("10");
-                ab.setDateMinutesEnd("30");
-                ab.setDateHourEnd("12");
-                ab.setDateMinutesStart("30");
 
 
-                Intent i = new Intent(PatientActivity.this,AppointmentBooked.class);
+
+                Intent i = new Intent(PatientActivity.this,AppointmentBookinDocSelectActicity.class);
+                i.putExtra("appointmentbean",ab);
+                startActivity(i);
+            }
+        });
+
+        doctorSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ab = new AppointmentBean();
+
+                ab.setPb(pb);
+                ;
+                ab.setDoctorid("doctor123456");
+
+
+
+                Intent i = new Intent(PatientActivity.this,ViewDoctorScheduleActivity.class);
+                i.putExtra("appointmentbean",ab);
+                startActivity(i);
+            }
+        });
+
+        scheduledAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ab = new AppointmentBean();
+
+                ab.setPb(pb);
+
+                ab.setDoctorid("doctor123456");
+
+
+
+                Intent i = new Intent(PatientActivity.this,ViewAppointmentActivity.class);
                 i.putExtra("appointmentbean",ab);
                 startActivity(i);
             }

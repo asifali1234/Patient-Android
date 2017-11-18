@@ -14,9 +14,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewUserDetailsActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class NewUserDetailsActivity extends AppCompatActivity {
     TextView name, email;
     CustomEditText phn, address, bloodGroup, gender, age;
     Button submit;
+    private CircleImageView personImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,15 @@ public class NewUserDetailsActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.patient_name);
         email = (TextView) findViewById(R.id.patient_email);
 
+        personImage = (CircleImageView) findViewById(R.id.personimage);
+
         name.setText(pb.getName());
-        email.setText(pb.getName());
+        email.setText(pb.getEmail());
+        Glide.with(getApplicationContext()).load(pb.getPhotoURL())
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(personImage);
 
 //        name.setText("Asif Ali");
 //        email.setText("aachi.mec@gmail.com");
@@ -68,7 +80,7 @@ public class NewUserDetailsActivity extends AppCompatActivity {
 
                 try {
 
-                    String example_url = "http://117.248.31.130:3000/patientDetails";
+                    String example_url = "http://ec2-13-58-90-106.us-east-2.compute.amazonaws.com/api/patientDetails";
 
 
                     patient.put("name",pb.getName());

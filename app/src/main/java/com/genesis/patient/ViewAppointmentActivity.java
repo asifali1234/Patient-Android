@@ -3,11 +3,12 @@ package com.genesis.patient;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AppointmentBooked extends AppCompatActivity {
+public class ViewAppointmentActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_booked);
+        setContentView(R.layout.activity_view_appointment);
     }
 }

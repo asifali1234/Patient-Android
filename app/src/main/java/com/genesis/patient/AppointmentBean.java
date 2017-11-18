@@ -9,14 +9,11 @@ import java.io.Serializable;
 public class AppointmentBean implements Serializable {
     
     private PatientBean pb;
-    private String dateDay;
-    private String dateMonth;
-    private String dateYear;
+    private String date;
     private String doctorid;
-    private String dateHourStart;
-    private String dateMinutesStart;
-    private String dateHourEnd;
-    private String dateMinutesEnd;
+    private String time;
+    private String day;
+
 
     public PatientBean getPb() {
         return pb;
@@ -24,30 +21,6 @@ public class AppointmentBean implements Serializable {
 
     public void setPb(PatientBean pb) {
         this.pb = pb;
-    }
-
-    public String getDateDay() {
-        return dateDay;
-    }
-
-    public void setDateDay(String dateDay) {
-        this.dateDay = dateDay;
-    }
-
-    public String getDateMonth() {
-        return dateMonth;
-    }
-
-    public void setDateMonth(String dateMonth) {
-        this.dateMonth = dateMonth;
-    }
-
-    public String getDateYear() {
-        return dateYear;
-    }
-
-    public void setDateYear(String dateYear) {
-        this.dateYear = dateYear;
     }
 
     public String getDoctorid() {
@@ -58,36 +31,27 @@ public class AppointmentBean implements Serializable {
         this.doctorid = doctorid;
     }
 
-
-    public String getDateHourStart() {
-        return dateHourStart;
+    public String getTime() {
+        return time;
     }
 
-    public void setDateHourStart(String dateHourStart) {
-        this.dateHourStart = dateHourStart;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getDateMinutesStart() {
-        return dateMinutesStart;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateMinutesStart(String dateMinutesStart) {
-        this.dateMinutesStart = dateMinutesStart;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getDateHourEnd() {
-        return dateHourEnd;
+    public String getDay() {
+        return day;
     }
 
-    public void setDateHourEnd(String dateHourEnd) {
-        this.dateHourEnd = dateHourEnd;
-    }
-
-    public String getDateMinutesEnd() {
-        return dateMinutesEnd;
-    }
-
-    public void setDateMinutesEnd(String dateMinutesEnd) {
-        this.dateMinutesEnd = dateMinutesEnd;
+    public void setDay(String day) {
+        this.day = day;
     }
 }

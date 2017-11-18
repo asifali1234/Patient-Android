@@ -43,7 +43,7 @@ public class OTPVerifyActivity extends AppCompatActivity {
 
         try {
 
-            String example_url = "http://117.248.31.130:3000/mobileVerification";
+            String example_url = "http://ec2-13-58-90-106.us-east-2.compute.amazonaws.com/api/mobileVerification";
 
 
             phoneNumber.put("mobilenumber",pb.getPhn());
@@ -72,7 +72,7 @@ public class OTPVerifyActivity extends AppCompatActivity {
 
                 try {
 
-                    String example_url = "http://117.248.31.130:3000/verify";
+                    String example_url = "http://ec2-13-58-90-106.us-east-2.compute.amazonaws.com/api/verify";
 
 
                     userOTP.put("otpno",otp_entered);
@@ -118,11 +118,11 @@ public class OTPVerifyActivity extends AppCompatActivity {
         int reqMethod = method.equalsIgnoreCase("POST") ? Request.Method.POST : Request.Method.GET;
 
         switch (reqtyoe){
-            case 1: showProgressDialog("Sending");
+            case 1: //showProgressDialog("Sending");
                 break;
             case 2: showProgressDialog("Verifying");
                 break;
-            case 3: showProgressDialog("Registering");
+            case 3: //showProgressDialog("Registering");
                 break;
         }
         JsonObjectRequest request = new JsonObjectRequest(reqMethod, reqUrl, data, new Response.Listener<JSONObject>() {
@@ -199,7 +199,7 @@ public class OTPVerifyActivity extends AppCompatActivity {
         Log.e(TAG,patient.toString());
 
 
-        hideProgressDialog();
+        //hideProgressDialog();
 
     }
 
@@ -207,7 +207,7 @@ public class OTPVerifyActivity extends AppCompatActivity {
         Log.e(TAG,patient.toString());
 
 
-        hideProgressDialog();
+       /// hideProgressDialog();
 
     }
 

@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-
     <application
         android:name=".AppController"
         android:allowBackup="true"
@@ -39,6 +38,18 @@
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".OTPVerifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
+        <activity
+            android:name=".AppointmentBookinDocSelectActicity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
+        <activity
+            android:name=".ViewDoctorScheduleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
+        <activity
+            android:name=".ViewAppointmentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme1" />
         <activity android:name=".AppointmentBooked"></activity>
